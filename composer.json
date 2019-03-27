@@ -1,0 +1,21 @@
+{
+    "name": "chengang/joy-interaction",
+    "description": "这个扩展提供了乐换机各个系统内部调用方法的接口封装。",
+    "type": "library",
+    "keywords": ["yii2","extension","joyexchange","interaction"],
+    "license": "BSD-4-Clause",
+    "authors": [
+        {
+            "name": "chengang",
+            "email": "cg568660652@qq.com"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "~2.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "chengang\\joyInteraction\\": ""
+        }
+    }
+}
