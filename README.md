@@ -33,24 +33,18 @@ Usage
 'components'=>{
  'joyInteraction' => [ //组件名称
             'class' => \chengang\joyInteraction\HttpPush::class, 
+            'signMethod' => '', //签名实现方法 需要实现chengang\joyInteraction\AuthMethod接口，返回签名字符串
+            'httpHeader' => '', //头部参数 需要继承chengang\joyInteraction\HttpHeader类 无特殊需要无需设置
             'source' => '1213', //需要配置目标系统分配的来源标识
         ]
 }
 ```
 2.在需要使用时，直接引用
 ```
-$res = Yii::$app->joyInteraction->push(HttpPush::METHOD_GET, 'http://wms.cc/v1/boxes/1');
+$res = Yii::$app->joyInteraction->push($method, $url, $data = [], $header = []);
 $res: 为请求结果
-HttpPush::METHOD_GET 请求方式，请引用HttpPush提供的请求方式枚举
-'http://wms.cc/v1/boxes/1' 请求目标地址
-```
-二.直接实例化方式
-
-直接实例化
-```
-   $httpPush = new \chengang\joyInteraction\HttpPush(); //实例化
-   $httpPush->source = '123'; //设置目标系统分配的来源标识
-   $data = $httpPush->push(HttpPush::METHOD_GET,'http://www.baidu.com');
-   HttpPush::METHOD_GET 请求方式，请引用HttpPush提供的请求方式枚举
-   'http://wms.cc/v1/boxes/1' 请求目标地址
+$method 请求方式，请引用HttpPush提供的请求方式枚举
+$url 请求目标地址
+$data 请求数据 可空
+$header 请求头部需要传入的字段 可空
 ```
