@@ -2,6 +2,7 @@
 
 namespace chengang\joyInteraction;
 
+use \Yii;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
 use yii\httpclient\Client;
@@ -89,7 +90,7 @@ class HttpPush extends Model
                 throw new InvalidConfigException(get_class($this->httpHeader) . ' must extends chengang\joyInteraction\HttpHeader');
             }
         }
-        $header = new $this->httpHeader;
+        $header = new $this->httpHeader();
         foreach ($header->attributes as $key => $value) {
             if (array_key_exists($key, $headerParams)) { //当请求存在头部参数时，替换值
                 $header->$key = ArrayHelper::getValue($headerParams, $key);
@@ -97,7 +98,8 @@ class HttpPush extends Model
         }
 
         $params = ArrayHelper::merge($header->attributes, $data);
-        $this->signCreate($params);
+
+        $this->_header->sign = $this->signCreate($params);
 
         if (!$this->_header->validate()) { //头部参数验证
             throw new UnprocessableEntityHttpException(ArrayHelper::getValue(array_values($this->_header->firstErrors), 0));
@@ -108,12 +110,14 @@ class HttpPush extends Model
     // sign 签名生成
     private function signCreate($params)
     {
+
         if (!$this->signMethod instanceof AuthMethod) {
             $this->signMethod = Yii::createObject($this->signMethod);
             if (!$this->signMethod instanceof AuthMethod) {
                 throw new InvalidConfigException(get_class($this->signMethod) . ' must implement chengang\joyInteraction\AuthMethod');
             }
         }
-        $this->_header->sign = $this->signMethod::createSign($params);
+        return $this->signMethod::createSign($params);
+
     }
 }
