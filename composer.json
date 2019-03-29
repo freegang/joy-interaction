@@ -17,7 +17,7 @@
     },
     "autoload": {
         "psr-4": {
-            "chengang\\joyInteraction\\src\\": ""
+            "chengang\\joyInteraction\\": "src"
         }
     }
 }
