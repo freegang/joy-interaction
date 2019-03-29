@@ -62,7 +62,7 @@ class HttpPush extends Model
             if (isset($header['source']) && !$header['source']) {
                 $header['source'] = $this->source;
             }
-            $this->headerCreate($header); //头部参数处理
+            $this->headerCreate($header, $data); //头部参数处理
             $response = $client
                 ->setUrl($url)
                 ->setHeaders($this->_header->attributes)
