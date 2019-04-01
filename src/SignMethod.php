@@ -12,7 +12,7 @@ namespace chengang\joyInteraction;
 class SignMethod implements AuthMethod
 {
     //签名算法实现
-    public static function createSign($params)
+    public static function createSign($headerParams, $dataParams)
     {
         return 'sign';
     }

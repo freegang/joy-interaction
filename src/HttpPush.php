@@ -96,19 +96,16 @@ class HttpPush extends Model
                 $header->$key = ArrayHelper::getValue($headerParams, $key);
             }
         }
-
-        $params = ArrayHelper::merge($header->attributes, $data);
-
-        $this->_header->sign = $this->signCreate($params);
-
-        if (!$this->_header->validate()) { //头部参数验证
-            throw new UnprocessableEntityHttpException(ArrayHelper::getValue(array_values($this->_header->firstErrors), 0));
+        $header->source = $this->source;
+        $header->sign = $this->signCreate($headerParams, $data);
+        if (!$header->validate()) { //头部参数验证
+            throw new UnprocessableEntityHttpException(ArrayHelper::getValue(array_values($header->firstErrors), 0));
         }
         $this->_header = $header;
     }
 
     // sign 签名生成
-    private function signCreate($params)
+    private function signCreate($headerParams, $data)
     {
 
         if (!$this->signMethod instanceof AuthMethod) {
@@ -117,7 +114,7 @@ class HttpPush extends Model
                 throw new InvalidConfigException(get_class($this->signMethod) . ' must implement chengang\joyInteraction\AuthMethod');
             }
         }
-        return $this->signMethod::createSign($params);
+        return $this->signMethod::createSign($headerParams, $data);
 
     }
 }
