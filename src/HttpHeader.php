@@ -24,6 +24,14 @@ class HttpHeader extends Model
             [['source', 'timestamp', 'sign'], 'required'],
             [['source', 'sign'], 'string'],
             [['timestamp'], 'integer'],
+            ['timestamp', function ($attribute, $params) {
+                if ((time() - $this->timestamp) / 60 > 3) { //请求服务器时间不能超过三分钟
+                    $this->addError($attribute, '请求超时');
+                }
+            }, 'on' => ['validate']
+            ], //验证场景时验证
+            ['source', 'in', 'range' => \Yii::$app->params['httpValidate'], 'on' => ['validate']],
+
         ];
     }
 

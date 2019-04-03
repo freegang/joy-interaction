@@ -13,8 +13,8 @@ use yii\web\UnprocessableEntityHttpException;
  */
 class HttpPush extends Model
 {
-    public $signMethod = '\chengang\joyInteraction\SignMethod'; //签名实现方法 可重新
-    public $httpHeader = '\chengang\joyInteraction\HttpHeaderModel'; //请求头部对象 可重新
+    public $signMethod = '\chengang\joyInteraction\SignMethod'; //签名实现方法 可重写
+    public $httpHeader = '\chengang\joyInteraction\HttpHeaderModel'; //请求头部对象 可重写
     public $method; //请求方式
     public $source; //请求源
     private $_header; //请求头部

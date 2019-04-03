@@ -24,7 +24,7 @@ to the require section of your `composer.json` file.
 
 Usage
 -----
-使用方式：
+请求系统使用方式：
 
 一.组件方式
 
@@ -48,3 +48,18 @@ $url 请求目标地址
 $data 请求数据 可空
 $header 请求头部需要传入的字段 可空
 ```
+
+
+目标系统使用方式
+
+一、基类控制器需要继承\chengang\joyInteraction\BaseController 控制器
+
+   1.签名验证方法 需要重新，必须实现chengang\joyInteraction\AuthMethod接口，返回签名字符串
+   
+   $signMethod = '\chengang\joyInteraction\SignMethod'; //签名实现方法 可重写
+   
+   2.头部参数 需要继承chengang\joyInteraction\HttpHeader类 无特殊需要无需设置
+   
+   $httpHeader = '\chengang\joyInteraction\HttpHeaderModel'; //请求头部对象 可重写
+   
+   3.需要在params配置文件设置httpValidate参数，参数内容为数组，允许请求系统通过的source 
