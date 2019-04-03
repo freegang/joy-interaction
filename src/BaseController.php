@@ -11,6 +11,10 @@ namespace chengang\joyInteraction;
 
 use yii\rest\Controller;
 use yii\web\UnprocessableEntityHttpException;
+use yii\filters\Cors;
+use \Yii;
+use yii\helpers\ArrayHelper;
+use yii\web\UnauthorizedHttpException;
 
 class BaseController extends Controller
 {

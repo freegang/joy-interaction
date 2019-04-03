@@ -97,7 +97,7 @@ class HttpPush extends Model
             }
         }
         $header->source = $this->source;
-        $header->sign = $this->signCreate($headerParams, $data);
+        $header->sign = $this->signCreate($header->attributes, $data);
         if (!$header->validate()) { //头部参数验证
             throw new UnprocessableEntityHttpException(ArrayHelper::getValue(array_values($header->firstErrors), 0));
         }
