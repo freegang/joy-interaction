@@ -65,8 +65,9 @@ $header 请求头部需要传入的字段 可空
    3.需要在params配置文件设置httpValidate参数，参数内容为数组，允许请求系统通过的source 
 ```
     'httpValidate' => [
-        'sources' => ['source1','source2']
-        'ips' => ['ip1','ip2']
+        'sources' => ['source1','source2'],
+        'ips' => ['ip1','ip2'], //允许通过ip
+        'outtime' => 3, //超时设置
     ],
 
 ```

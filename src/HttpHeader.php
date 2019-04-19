@@ -10,6 +10,8 @@ namespace chengang\joyInteraction;
 
 
 use yii\base\Model;
+use yii\helpers\ArrayHelper;
+use yii\web\UnauthorizedHttpException;
 
 //请求头部对象
 class HttpHeader extends Model
@@ -26,15 +28,29 @@ class HttpHeader extends Model
             [['source', 'sign'], 'string'],
             [['timestamp'], 'integer'],
             ['timestamp', function ($attribute, $params) {
-                if ((time() - $this->timestamp) / 60 > 3) { //请求服务器时间不能超过三分钟
+                $outtime = ArrayHelper::getValue(\Yii::$app->params, 'httpValidate.outtime');
+                $outtime = $outtime ? $outtime : 3;
+                if ((time() - $this->timestamp) / 60 > $outtime) {
                     $this->addError($attribute, '请求超时');
                 }
             }, 'on' => ['validate']
             ], //验证场景时验证
             //请求来源验证
-            ['source', 'in', 'range' => \Yii::$app->params['httpValidate']['sources'], 'on' => ['validate']],
-            //请求ip验证
-            ['ip', 'in', 'range' => \Yii::$app->params['httpValidate']['ips'], 'on' => ['validate']],
+            ['source', function ($attribute) {
+                $sources = ArrayHelper::getValue(\Yii::$app->params, 'httpValidate.sources');
+                if (!in_array($this->source, $sources)) {
+                    throw new UnauthorizedHttpException('source 有误');
+                }
+
+            }, 'on' => ['validate']],
+            //ip验证
+            ['ip', function ($attribute) {
+                $ips = ArrayHelper::getValue(\Yii::$app->params, 'httpValidate.ips');
+                if (!in_array($this->ip, $ips)) {
+                    throw new UnauthorizedHttpException('ip禁止访问');
+                }
+
+            }, 'on' => ['validate']],
 
         ];
     }
