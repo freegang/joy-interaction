@@ -63,3 +63,10 @@ $header 请求头部需要传入的字段 可空
    $httpHeader = '\chengang\joyInteraction\HttpHeaderModel'; //请求头部对象 可重写
    
    3.需要在params配置文件设置httpValidate参数，参数内容为数组，允许请求系统通过的source 
+```
+    'httpValidate' => [
+        'sources' => ['source1','source2']
+        'ips' => ['ip1','ip2']
+    ],
+
+```

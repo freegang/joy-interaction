@@ -72,6 +72,7 @@ class BaseController extends Controller
             $postParams = Yii::$app->request->getBodyParams(); //body参数
             $data = ArrayHelper::merge($getParams, $postParams);
             $sign = $this->signMethod::createSign($header->attributes, $data);
+            $header->ip = Yii::$app->request->userIP;
             $header->scenario = 'validate';
             if (!$header->validate()) {
                 throw new UnprocessableEntityHttpException(ArrayHelper::getValue(array_values($header->firstErrors), 0));

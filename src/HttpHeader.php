@@ -17,6 +17,7 @@ class HttpHeader extends Model
     public $source; //源
     public $timestamp; //调用时间
     public $sign; //签名字符串
+    public $ip; //请求ip
 
     public function rules()
     {
@@ -30,7 +31,10 @@ class HttpHeader extends Model
                 }
             }, 'on' => ['validate']
             ], //验证场景时验证
-            ['source', 'in', 'range' => \Yii::$app->params['httpValidate'], 'on' => ['validate']],
+            //请求来源验证
+            ['source', 'in', 'range' => \Yii::$app->params['httpValidate']['sources'], 'on' => ['validate']],
+            //请求ip验证
+            ['ip', 'in', 'range' => \Yii::$app->params['httpValidate']['ips'], 'on' => ['validate']],
 
         ];
     }
