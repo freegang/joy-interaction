@@ -72,7 +72,7 @@ class BaseController extends Controller
             $postParams = Yii::$app->request->getBodyParams(); //body参数
             $data = ArrayHelper::merge($getParams, $postParams);
             $sign = $this->signMethod::createSign($header->attributes, $data);
-            $header->ip = Yii::$app->request->userIP;
+            $header->ip = $this->realIp;
             $header->scenario = 'validate';
             if (!$header->validate()) {
                 throw new UnprocessableEntityHttpException(ArrayHelper::getValue(array_values($header->firstErrors), 0));
@@ -86,6 +86,17 @@ class BaseController extends Controller
         }
 
         return false;
+    }
+
+    public function getRealIp($default = null)
+    {
+        if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            return $_SERVER['HTTP_X_FORWARDED_FOR'];
+        }
+        if (isset($_SERVER['REMOTE_ADDR'])) {
+            return $_SERVER['REMOTE_ADDR'];
+        }
+        return $default;
     }
 
 
